@@ -77,7 +77,7 @@ int main()
 			if (dynamic_cast<Polyline*>(*it))
 				++count;
 		}
-
+		
 		std::cout << "Polyline in list: " << count << std::endl;
 
 		count = 0;

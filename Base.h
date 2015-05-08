@@ -5,10 +5,9 @@
 
 class Named
 {
-public:
-	Named() {}
+public:	
 	Named(char const * _name) : name(_name) {}
-	~Named() {}
+	virtual ~Named() {}
 protected:
 	std::string name;
 };
@@ -16,8 +15,7 @@ protected:
 class Printable : public virtual Named
 {
 public:
-	Printable() {}
-	Printable(char const * _name) : Named(_name) {}
-	~Printable() {}
+	Printable() : Named("") {}
+	virtual ~Printable() {}
 	void Print() { std::cout << name << std::endl; };
 };

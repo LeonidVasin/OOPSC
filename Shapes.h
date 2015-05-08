@@ -7,7 +7,7 @@
 class Shape : public virtual Named
 {
 public:
-	Shape() {}
+	Shape():Named("") {}
 	static int Get_count(void) { return counter; }
 	virtual ~Shape() = 0 {}
 protected:

@@ -1,6 +1,6 @@
 #include "FactoryShapes.h"
 
-Point * Factory::Create_point()
+Point * Factory::Create_point() const
 {
 	int x = rand()%100, y = rand()%100;
 	if (rand() % 2)
@@ -11,7 +11,7 @@ Point * Factory::Create_point()
 	return new Point(x, y);
 }
 
-Circle * Factory::Create_circle()
+Circle * Factory::Create_circle() const
 {
 	int x = rand()%100, y = rand()%100, radius = rand()%50;
 	if (rand() % 2)
@@ -22,7 +22,7 @@ Circle * Factory::Create_circle()
 	return new Circle(x, y, radius);
 }
 
-Rect * Factory::Create_rect()
+Rect * Factory::Create_rect() const
 {
 	int x = rand() % 100, y = rand() % 100, length = rand() % 100, width = rand() % 100;
 	if (rand() % 2)
@@ -33,7 +33,7 @@ Rect * Factory::Create_rect()
 	return  new Rect(x, y, length, width);
 }
 
-Polyline * Factory::Create_polyline()
+Polyline * Factory::Create_polyline() const
 {
 	int counter = rand() % 15;
 	Polyline * _polyline = new Polyline;
@@ -46,17 +46,15 @@ Polyline * Factory::Create_polyline()
 	return _polyline; 
 }
 
-Polygon * Factory::Create_polygon()
+Polygon * Factory::Create_polygon() const
 {
-	int counter = rand() % 15;
+	int counter = rand() % 10;
 	Polygon * _polygon = new Polygon;
 	if (counter < 3)
 		counter = 3;
 	for (int i = 0; i < counter; ++i)
 	{
 		_polygon->Add_point(*(Create_point()));
-		
 	}
-
 	return _polygon;
 }

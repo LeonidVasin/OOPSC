@@ -8,33 +8,30 @@ int main()
 {
 	
 	XList<Shape*> _shape;
-	Factory * _factory = new Factory;
 
 	for (int i = 0; i < 20; ++i)
 	{
 		switch (rand() % 5)
 		{
 		case 0:
-			_shape.Add_tail(_factory->Create_point());
+			_shape.Add_tail((new Factory)->Create_point());
 			break;
 		case 1:
-			_shape.Add_tail(_factory->Create_circle());
+			_shape.Add_tail((new Factory)->Create_circle());
 			break;
 		case 2:
-			_shape.Add_tail(_factory->Create_rect());
+			_shape.Add_tail((new Factory)->Create_rect());
 			break;
 		case 3:
-			_shape.Add_tail(_factory->Create_polyline());
+			_shape.Add_tail((new Factory)->Create_polyline());
 			break;
 		case 4:
-			_shape.Add_tail(_factory->Create_polygon());
+			_shape.Add_tail((new Factory)->Create_polygon());
 			break;
 		}
 	}
 
-	delete _factory;
-
-	int count = 0;
+	unsigned int count = 0;
 	std::cout << "Total to the figures: " << Shape::Get_count() << std::endl;
 
 	try
@@ -99,7 +96,7 @@ int main()
 
 		return 0;
 	}
-	catch (char * str)
+	catch (std::string str)
 	{
 		std::cout << str << std::endl;
 	}

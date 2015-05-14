@@ -2,21 +2,13 @@
 
 #include <iostream>
 
-template <typename T> class Node
-{
-public:
-	Node() {}
-	~Node() { next = NULL; prev = NULL; delete data; }
-	T data;
-	Node * next;
-	Node * prev;
-};
+
 
 template <typename T> class XList
 {
 public:
+	class Node;
 	XList() : head(NULL), tail(NULL), count(0) {}
-	XList(XList<T> const & other) : head(NULL), tail(NULL), count(0) { *this = other; }
 	~XList() { Clear(); }
 	void Add_head(T const _data);
 	void Add_tail(T const _data);
@@ -24,15 +16,15 @@ public:
 	void Del_tail(void);
 	bool Empty(void) const { return (head == NULL); };
 	void Clear(void);
-	int Get_count(void) const { return count; }
+	unsigned int Get_count(void) const { return count; }
 	T& Get_head(void) const { if (head == NULL) throw "List empty!"; return head->data; }
 	T& Get_tail(void) const { if (head == NULL) throw "List empty!"; return tail->data; }
 	void operator=(const XList<T>& other);
-	friend class Node<T>;
 
 	class XListIterator
 	{
 	public:
+		XListIterator(Node * m_node) :_node(m_node) {}
 		XListIterator & operator++ () { _node = _node->next; return *this; }
 		XListIterator  operator++ (int) { XListIterator tmp = *this; _node = _node->next; return tmp; }
 		XListIterator & operator-- () { _node = _node->prev; return *this; }
@@ -42,26 +34,32 @@ public:
 		T &operator *() { return _node->data; }
 		T *operator ->(){ return &_node->data; }
 
-		XListIterator() : _node(0) {}
+		XListIterator() : _node(NULL) {}
 	private:
-		Node<T> * _node;
-		XListIterator(Node<T> * m_node) :_node(m_node) {}
-		friend class XList<T>;
-		friend class Node<T>;
+		Node * _node;	
 	};
 	XListIterator Head_XList(void) const { if (head == NULL) throw "List empty."; return XListIterator(head); }
 	XListIterator Tail_XList(void) const { if (head == NULL) throw "List empty."; return XListIterator(tail); }
 	XListIterator End(void) const { return XListIterator(0); }
 private:	
-	Node<T> * head;
-	Node<T> * tail;
-	int count;
+	class Node
+	{
+	public:
+		Node() { next = NULL; prev = NULL; }
+		~Node() { next = NULL; prev = NULL; }
+		T data;
+		Node * next;
+		Node * prev;
+	};
+	Node * head;
+	Node * tail;
+	unsigned int count;
 };
 
 template <typename T>
 void XList<T>::Add_head(T const _data)
 {
-	Node<T> * to_add = new Node<T>;
+	Node * to_add = new Node;
 	if (head == NULL)
 	{
 		to_add->next = NULL;
@@ -85,7 +83,7 @@ void XList<T>::Add_head(T const _data)
 template <typename T>
 void XList<T>::Add_tail(T const _data)
 {
-	Node<T> * to_add = new Node<T>;
+	Node * to_add = new Node;
 	if (head == NULL)
 	{
 		to_add->next = NULL;
@@ -111,7 +109,7 @@ void XList<T>::Del_head(void)
 {
 	if (head != NULL)
 	{
-		Node<T> * to_del = head;
+		Node * to_del = head;
 		if (count == 1)
 		{
 			head = NULL;
@@ -132,7 +130,7 @@ void XList<T>::Del_tail(void)
 {
 	if (head != NULL)
 	{
-		Node<T> * to_del = tail;
+		Node * to_del = tail;
 		if (count == 1)
 		{
 			head = NULL;
@@ -153,8 +151,8 @@ void XList<T>::Clear(void)
 {
 	if (head != NULL)
 	{
-		Node<T> * to_del = this->head;
-		Node<T> * current = this->head;
+		Node * to_del = this->head;
+		Node * current = this->head;
 		while (to_del != NULL)
 		{			
 			current = current->next;
@@ -175,7 +173,7 @@ void XList<T>::operator=(const XList<T>& other)
 
 	Clear();
 
-	Node<T> * m_node = other.head;
+	Node * m_node = other.head;
 	while (m_node)
 	{
 		Add_tail(m_node->data);
